@@ -42,7 +42,8 @@ const fetchAllFood = async (req, res) => {
         else {
             res.json({
                 success: true,
-                message: "No Food is available, please add food."
+                message: "No Food is available, please add food.",
+                foods_available: [],
             });
         }
     } catch (error) {
@@ -82,7 +83,7 @@ const removeFood = async (req, res, next) => {
 
         res.json({
             success: true,
-            message: `Food removed successfully at id: ${req.params.id}..`,
+            message: `Food removed successfully`,
         })
 
     } catch (error) {
