@@ -15,6 +15,7 @@ const StoreContextProvider = (props) => {
     let deliveryFees = 0;
 
     const addToCart = (itemId) => {
+        console.log('hello');
         if (!cartItems[itemId]) {
             setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
         }
@@ -31,7 +32,7 @@ const StoreContextProvider = (props) => {
 
         if (totalAmount === 0) {
             for (const item in cartItems) {
-                let itemInfo = food_list.find((product) => product._id === item);
+                let itemInfo = foodList.find((product) => product._id === item);
                 totalAmount += itemInfo.price * cartItems[item];
             }
         }

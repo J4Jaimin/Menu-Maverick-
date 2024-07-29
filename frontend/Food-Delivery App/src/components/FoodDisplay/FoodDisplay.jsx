@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import './fooddisplay.css';
 import { StoreContext } from '../Context/StoreContext';
 import FoodItem from '../FoodItem/FoodItem';
@@ -6,19 +6,27 @@ import axios from 'axios';
 
 const FoodDisplay = ({ category }) => {
 
-    const { food_list, foodList, setFoodList } = useContext(StoreContext);
+    const { food_list, url, foodList, setFoodList } = useContext(StoreContext);
 
-    const fetchFoodList = () => {
-        
+    const fetchFoodList = async () => {
+        const response = await axios.get(`${url}/api/food/listfood`);
+
+        if (response.data.success) {
+            setFoodList(response.data.foods_available);
+        }
     }
+
+    useEffect(() => {
+        fetchFoodList();
+    }, [])
 
     return (
         <div className='food-display' id='food-display'>
             <h2>Top dishes near you.</h2>
             <div className='food-display-list'>
-                {food_list.map((item, index) => {
+                {foodList.map((item, index) => {
                     if (category === 'All' || category === item.category) {
-                        return <FoodItem key={index} id={item._id} name={item.name} price={item.price} img={item.image} desc={item.description} />
+                        return <FoodItem key={index} id={item._id} name={item.name} price={item.price} img={`${url}/images/${item.image}`} desc={item.description} />
                     }
                 })}
             </div>
