@@ -7,6 +7,8 @@ import Cart from './pages/Cart/Cart';
 import PlaceOrder from './pages/PlaceOrder/PlaceOrder';
 import Footer from './components/Footer/Footer';
 import Loginpopup from './components/Loginpopup/Loginpopup';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
 
@@ -15,6 +17,7 @@ const App = () => {
   return (
     <>
       <div className='app'>
+        <ToastContainer />
         {isLogin ? <Loginpopup setIsLogin={setIsLogin} /> : <></>}
         <Navbar setIsLogin={setIsLogin} />
         <Routes>
