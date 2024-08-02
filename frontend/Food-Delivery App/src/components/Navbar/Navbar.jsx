@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 const Navbar = ({ setIsLogin }) => {
 
     const [menu, setMenu] = useState('home');
-    const { getTotalCartAmount, token, setToken } = useContext(StoreContext);
+    const { getTotalCartAmount, token, setToken, } = useContext(StoreContext);
 
     const navigate = useNavigate();
 
@@ -17,6 +17,9 @@ const Navbar = ({ setIsLogin }) => {
         setToken('');
         navigate('/');
         toast.success("Logged out successfully.");
+        setTimeout(() => {
+            window.location.reload();
+        }, 100);
     }
 
     return (
