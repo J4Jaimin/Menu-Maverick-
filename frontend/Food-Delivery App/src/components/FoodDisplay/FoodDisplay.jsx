@@ -6,19 +6,19 @@ import axios from 'axios';
 
 const FoodDisplay = ({ category }) => {
 
-    const { food_list, url, foodList, setFoodList } = useContext(StoreContext);
+    const { url, foodList } = useContext(StoreContext);
 
-    const fetchFoodList = async () => {
-        const response = await axios.get(`${url}/api/food/listfood`);
+    // const fetchFoodList = async () => {
+    //     const response = await axios.get(`${url}/api/food/listfood`);
 
-        if (response.data.success) {
-            setFoodList(response.data.foods_available);
-        }
-    }
+    //     if (response.data.success) {
+    //         setFoodList(response.data.foods_available);
+    //     }
+    // }
 
-    useEffect(() => {
-        fetchFoodList();
-    }, [])
+    // useEffect(() => {
+    //     fetchFoodList();
+    // }, [])
 
     return (
         <div className='food-display' id='food-display'>
