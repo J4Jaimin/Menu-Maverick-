@@ -4,6 +4,8 @@ import connectDB from './config/db.js';
 import foodRouter from './routes/foodroute.js';
 import userRouter from './routes/userroute.js';
 import 'dotenv/config';
+import cartRouter from './routes/cartroute.js';
+// import authmiddleware from './middleware/authmiddleware.js';
 
 // initialize app using express:
 
@@ -14,6 +16,7 @@ const port = 4000;
 
 app.use(express.json());
 app.use(cors());
+// app.use(authmiddleware);
 
 // DB Connection
 
@@ -24,6 +27,7 @@ connectDB();
 app.use("/api/food", foodRouter)
 app.use("/images", express.static('uploads'));
 app.use('/api/user', userRouter);
+app.use('/api/cart', cartRouter);
 
 app.get('/', (req, res) => {
     res.send("API Working..");
