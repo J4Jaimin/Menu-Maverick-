@@ -17,47 +17,51 @@ const StoreContextProvider = (props) => {
     let deliveryFees = 0;
 
     const addToCart = async (itemId) => {
-        // if (!cartItems[itemId]) {
-        //     setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
-        // }
-        // else {
-        //     setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
-        // }
-
-        const response = await axios.post(`${url}/api/cart/add`, {
-            id: itemId
-        }, {
-            headers: {
-                'token': localStorage.token
-            }
-        });
-
-        if (response.data.success) {
-            toast.success(response.data.message);
-            fetchCartItems();
+        if (!cartItems[itemId]) {
+            setCartItems((prev) => ({ ...prev, [itemId]: 1 }));
         }
         else {
-            toast.error(response.data.message);
+            setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }));
+        }
+
+        if (token) {
+            const response = await axios.post(`${url}/api/cart/add`, {
+                id: itemId
+            }, {
+                headers: {
+                    'token': localStorage.getItem("token")
+                }
+            });
+
+            if (response.data.success) {
+                toast.success(response.data.message);
+                fetchCartItems();
+            }
+            else {
+                toast.error(response.data.message);
+            }
         }
     }
 
     const removeFromCart = async (itemId) => {
-        // setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
+        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }));
 
-        const response = await axios.post(`${url}/api/cart/remove`, {
-            id: itemId
-        }, {
-            headers: {
-                'token': localStorage.token
+        if (token) {
+            const response = await axios.post(`${url}/api/cart/remove`, {
+                id: itemId
+            }, {
+                headers: {
+                    'token': localStorage.getItem("token")
+                }
+            });
+
+            if (response.data.success) {
+                toast.success(response.data.message);
+                fetchCartItems();
             }
-        });
-
-        if (response.data.success) {
-            toast.success(response.data.message);
-            fetchCartItems();
-        }
-        else {
-            toast.error(response.data.message);
+            else {
+                toast.error(response.data.message);
+            }
         }
     }
 
@@ -88,7 +92,7 @@ const StoreContextProvider = (props) => {
 
         const response = await axios.get(`${url}/api/cart/get`, {
             headers: {
-                "token": localStorage.token
+                "token": localStorage.getItem("token")
             }
         });
 
@@ -107,8 +111,8 @@ const StoreContextProvider = (props) => {
                 setToken(localStorage.getItem('token'));
             }
 
-            fetchFood();
-            fetchCartItems();
+            await fetchFood();
+            await fetchCartItems();
         }
 
         loadData();

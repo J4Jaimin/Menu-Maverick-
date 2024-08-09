@@ -8,17 +8,8 @@ const addToCart = async (req, res) => {
     const userId = req.body.user_id;
 
     try {
-        let userData = await userModel.findOne({ _id: userId });
+        let userData = await userModel.findById(userId);
         let cartData = await userData.cartItems;
-
-        const food = await foodModel.findOne({ _id: itemId });
-
-        if (!food) {
-            return res.status(401).json({
-                success: false,
-                message: "No food found at this id."
-            })
-        }
 
         if (!cartData[itemId]) {
             cartData[itemId] = 1;
@@ -50,17 +41,8 @@ const removeFromCart = async (req, res) => {
     const foodId = req.body.id;
 
     try {
-        let userData = await userModel.findOne({ _id: userId });
+        let userData = await userModel.findById(userId);
         let cartItems = await userData.cartItems;
-
-        const food = await foodModel.findOne({ _id: foodId });
-
-        if (!food) {
-            return res.status(401).json({
-                success: false,
-                message: "No food availble at this id."
-            })
-        }
 
         if (cartItems[foodId] === 1) {
             delete cartItems[foodId];
@@ -89,7 +71,7 @@ const fetchFood = async (req, res) => {
     const userId = req.body.user_id;
 
     try {
-        let userData = await userModel.findOne({ _id: userId });
+        let userData = await userModel.findById(userId);
         let cartItems = await userData.cartItems;
 
         res.status(200).json({
