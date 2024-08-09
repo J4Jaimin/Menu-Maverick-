@@ -44,7 +44,7 @@ const PlaceOrder = () => {
         })
 
         const newOrder = {
-            data: items,
+            items: items,
             amount: getTotalCartAmount,
             address: data,
             deliveryCharges: getDeliveryFees,
