@@ -29,7 +29,7 @@ const PlaceOrder = () => {
 
         event.preventDefault();
 
-        const items = [];
+        let items = [];
         // cartItems.map((item) => {
         //     let food = foodList.find((foodItem) => foodItem._id === item);
         //     food.quantity = cartItems[item];
@@ -38,21 +38,28 @@ const PlaceOrder = () => {
 
         foodList.map((item) => {
             if (cartItems[item._id] > 0) {
-                item.quantity = cartItems[item._id];
-                items.push(item);
+                let itemInfo = item;
+                itemInfo.quantity = cartItems[item._id];
+                items.push(itemInfo);
             }
         })
 
-        const newOrder = {
-            items: items,
-            amount: getTotalCartAmount,
+        let newOrder = {
             address: data,
-            deliveryCharges: getDeliveryFees,
+            items: items,
+            amount: getTotalCartAmount(),
+            deliveryCharges: getDeliveryFees(),
         }
 
-        const response = await axios.post(`${url}/api/order/placeorder`, { newOrder }, { headers: { token } });
+        let response = await axios.post(`${url}/api/order/placeorder`, newOrder, { headers: { token } });
 
-        console.log(response);
+        if (response.data.success) {
+            const { session_url } = response.data;
+            window.location.replace(session_url);
+        }
+        else {
+            alert("Error");
+        }
     }
 
 
@@ -95,7 +102,7 @@ const PlaceOrder = () => {
                             <p>${getGrandTotal()}</p>
                         </div>
                     </div>
-                    <button>PROCEED TO PAYMENT</button>
+                    <button type='submit'>PROCEED TO PAYMENT</button>
                 </div>
             </div>
         </form>

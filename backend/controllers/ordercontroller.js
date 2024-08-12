@@ -9,8 +9,6 @@ const placeOrder = async (req, res) => {
 
     const frontend_url = "http://localhost:5173";
 
-    console.log(req.body);
-
     try {
 
         const newOrder = new orderModel({
@@ -65,4 +63,33 @@ const placeOrder = async (req, res) => {
     }
 }
 
-export { placeOrder };
+const verifyPayment = async (req, res) => {
+
+    const { orderId, success } = req.body;
+
+    try {
+        if (success === 'true') {
+            await orderModel.findByIdAndUpdate(orderId, { payment: true });
+
+            res.json({
+                success: true,
+                message: "Payment Done!"
+            })
+        }
+        else {
+            await orderModel.findByIdAndDelete(orderId);
+
+            res.json({
+                success: false,
+                message: "Payment Failed :|"
+            })
+        }
+    } catch (error) {
+        res.json({
+            success: false,
+            message: "Error",
+        })
+    }
+}
+
+export { placeOrder, verifyPayment };
