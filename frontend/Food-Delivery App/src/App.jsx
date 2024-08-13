@@ -9,7 +9,7 @@ import Footer from './components/Footer/Footer';
 import Loginpopup from './components/Loginpopup/Loginpopup';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Verify from './pages/verify/Verify';
+import Verify from './pages/Verify/Verify';
 
 const App = () => {
 
