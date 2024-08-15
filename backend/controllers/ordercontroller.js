@@ -92,4 +92,23 @@ const verifyPayment = async (req, res) => {
     }
 }
 
-export { placeOrder, verifyPayment };
+const fetchUserOrders = async (req, res) => {
+
+    const { user_id } = req.body;
+
+    try {
+        const orders = await orderModel.find({ userId: user_id });
+
+        res.json({
+            success: true,
+            orders
+        })
+    } catch (error) {
+        res.json({
+            success: false,
+            message: error.message
+        })
+    }
+}
+
+export { placeOrder, verifyPayment, fetchUserOrders };
